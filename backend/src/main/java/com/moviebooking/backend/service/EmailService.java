@@ -112,7 +112,7 @@ public void sendOtpEmail(
             true
     );
 }
-    @Async
+
     public void sendBookingConfirmation(
             String userEmail,
             Booking booking
