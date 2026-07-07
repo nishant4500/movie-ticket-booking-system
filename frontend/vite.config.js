@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'https://movie-ticket-booking-system-production-0651.up.railway.app',
         changeOrigin: true,
         secure: false,
       }
