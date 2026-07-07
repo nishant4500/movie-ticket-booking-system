@@ -28,7 +28,12 @@ public class EmailService {
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private void sendEmail(List<String> recipients, String subject, String content, boolean html) {
+    private void sendEmail(
+            List<String> recipients,
+            String subject,
+            String content,
+            boolean html
+    ) {
         try {
             Map<String, Object> payload = new HashMap<>();
 
@@ -56,9 +61,16 @@ public class EmailService {
                     HttpResponse.BodyHandlers.ofString()
             );
 
-            if (response.statusCode() >= 200 && response.statusCode() < 300) {
-                System.out.println("Email sent successfully: " + response.body());
+            if (response.statusCode() >= 200
+                    && response.statusCode() < 300) {
+
+                System.out.println(
+                        "Email sent successfully: "
+                                + response.body()
+                );
+
             } else {
+
                 System.err.println(
                         "Failed to send email. Status: "
                                 + response.statusCode()
@@ -68,13 +80,22 @@ public class EmailService {
             }
 
         } catch (Exception e) {
-            System.err.println("Email API error: " + e.getMessage());
+
+            System.err.println(
+                    "Email API error: "
+                            + e.getMessage()
+            );
+
             e.printStackTrace();
         }
     }
 
     @Async
-    public void sendOtpEmail(String adminEmail, String superAdminEmail, String otp) {
+    public void sendOtpEmail(
+            String adminEmail,
+            String superAdminEmail,
+            String otp
+    ) {
 
         String text =
                 "Your OTP for Aurora Cinemas Admin login is: "
@@ -91,13 +112,22 @@ public class EmailService {
     }
 
     @Async
-    public void sendBookingConfirmation(String userEmail, Booking booking) {
+    public void sendBookingConfirmation(
+            String userEmail,
+            Booking booking
+    ) {
 
         String qrData =
-                "Booking: " + booking.getBookingNumber()
-                        + " | Movie: " + booking.getShow().getMovie().getMovieName()
-                        + " | Date: " + booking.getShow().getShowDate()
-                        + " | Seats: " + booking.getSelectedSeats();
+                "Booking: "
+                        + booking.getBookingNumber()
+                        + " | Movie: "
+                        + booking.getShow()
+                        .getMovie()
+                        .getMovieName()
+                        + " | Date: "
+                        + booking.getShow().getShowDate()
+                        + " | Seats: "
+                        + booking.getSelectedSeats();
 
         String encodedQrData = URLEncoder.encode(
                 qrData,
@@ -110,15 +140,37 @@ public class EmailService {
                         + encodedQrData;
 
         String htmlContent =
-                "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #1a1a2e; color: #fff; padding: 20px; border-radius: 10px;'>"
-                        + "<div style='text-align: center; border-bottom: 1px solid #444; padding-bottom: 20px; margin-bottom: 20px;'>"
-                        + "<h1 style='color: #e50914; margin: 0;'>Booking Confirmed!</h1>"
-                        + "<p style='color: #aaa; margin-top: 5px;'>Your ticket is ready.</p>"
+                "<div style='font-family: Arial, sans-serif;"
+                        + "max-width: 600px;"
+                        + "margin: 0 auto;"
+                        + "background-color: #1a1a2e;"
+                        + "color: #fff;"
+                        + "padding: 20px;"
+                        + "border-radius: 10px;'>"
+
+                        + "<div style='text-align:center;"
+                        + "border-bottom:1px solid #444;"
+                        + "padding-bottom:20px;"
+                        + "margin-bottom:20px;'>"
+
+                        + "<h1 style='color:#e50914;'>"
+                        + "Booking Confirmed!"
+                        + "</h1>"
+
+                        + "<p style='color:#aaa;'>"
+                        + "Your ticket is ready."
+                        + "</p>"
+
                         + "</div>"
 
-                        + "<div style='background-color: #16213e; padding: 20px; border-radius: 8px; margin-bottom: 20px;'>"
-                        + "<h2 style='margin-top: 0; color: #fff;'>"
-                        + booking.getShow().getMovie().getMovieName()
+                        + "<div style='background-color:#16213e;"
+                        + "padding:20px;"
+                        + "border-radius:8px;'>"
+
+                        + "<h2>"
+                        + booking.getShow()
+                        .getMovie()
+                        .getMovieName()
                         + "</h2>"
 
                         + "<p><strong>Booking Number:</strong> "
@@ -132,9 +184,14 @@ public class EmailService {
                         + "</p>"
 
                         + "<p><strong>Theatre:</strong> "
-                        + booking.getShow().getScreen().getTheatre().getTheatreName()
+                        + booking.getShow()
+                        .getScreen()
+                        .getTheatre()
+                        .getTheatreName()
                         + " ("
-                        + booking.getShow().getScreen().getScreenName()
+                        + booking.getShow()
+                        .getScreen()
+                        .getScreenName()
                         + ")</p>"
 
                         + "<p><strong>Seats:</strong> "
@@ -147,41 +204,59 @@ public class EmailService {
 
                         + "</div>"
 
-                        + "<div style='text-align: center; margin-top: 20px;'>"
-                        + "<p style='color: #aaa; margin-bottom: 10px;'>"
+                        + "<div style='text-align:center;"
+                        + "margin-top:20px;'>"
+
+                        + "<p style='color:#aaa;'>"
                         + "Scan this QR Code at the theatre"
                         + "</p>"
 
                         + "<img src='"
                         + qrUrl
-                        + "' alt='Ticket QR Code' "
-                        + "style='border: 4px solid #fff; border-radius: 8px;' />"
+                        + "' "
+                        + "alt='Ticket QR Code' "
+                        + "style='border:4px solid #fff;"
+                        + "border-radius:8px;' />"
 
                         + "</div>"
 
-                        + "<div style='text-align: center; margin-top: 30px; font-size: 12px; color: #666;'>"
-                        + "<p>Thank you for choosing our service. Enjoy the movie!</p>"
+                        + "<div style='text-align:center;"
+                        + "margin-top:30px;"
+                        + "font-size:12px;"
+                        + "color:#666;'>"
+
+                        + "<p>"
+                        + "Thank you for choosing our service. "
+                        + "Enjoy the movie!"
+                        + "</p>"
+
                         + "</div>"
 
                         + "</div>";
 
         sendEmail(
                 List.of(userEmail),
-                "Booking Confirmed - " + booking.getBookingNumber(),
+                "Booking Confirmed - "
+                        + booking.getBookingNumber(),
                 htmlContent,
                 true
         );
     }
 
     @Async
-    public void sendCancellationEmail(String userEmail, Booking booking) {
+    public void sendCancellationEmail(
+            String userEmail,
+            Booking booking
+    ) {
 
         String text =
                 "Your booking has been cancelled."
                         + "\n\nBooking Number: "
                         + booking.getBookingNumber()
                         + "\nMovie: "
-                        + booking.getShow().getMovie().getMovieName()
+                        + booking.getShow()
+                        .getMovie()
+                        .getMovieName()
                         + "\nSeats: "
                         + booking.getSelectedSeats()
                         + "\nRefund of Rs. "
@@ -190,7 +265,8 @@ public class EmailService {
 
         sendEmail(
                 List.of(userEmail),
-                "Booking Cancelled - " + booking.getBookingNumber(),
+                "Booking Cancelled - "
+                        + booking.getBookingNumber(),
                 text,
                 false
         );
@@ -204,36 +280,50 @@ public class EmailService {
     ) {
 
         String htmlContent =
-                "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #1a1a2e; color: #fff; padding: 24px; border-radius: 10px;'>"
-                        + "<h1 style='color: #E5B769; margin-top: 0;'>"
+                "<div style='font-family:Arial,sans-serif;"
+                        + "max-width:600px;"
+                        + "margin:0 auto;"
+                        + "background-color:#1a1a2e;"
+                        + "color:#fff;"
+                        + "padding:24px;"
+                        + "border-radius:10px;'>"
+
+                        + "<h1 style='color:#E5B769;'>"
                         + "New Admin Registration"
                         + "</h1>"
 
-                        + "<p style='color: #aaa;'>"
-                        + "A new theatre admin has registered and is waiting for your approval."
+                        + "<p style='color:#aaa;'>"
+                        + "A new theatre admin has registered "
+                        + "and is waiting for your approval."
                         + "</p>"
 
-                        + "<div style='background-color: #16213e; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #E5B769;'>"
+                        + "<div style='background-color:#16213e;"
+                        + "padding:20px;"
+                        + "border-radius:8px;"
+                        + "margin:20px 0;"
+                        + "border-left:4px solid #E5B769;'>"
 
-                        + "<p style='margin: 0 0 8px;'>"
-                        + "<strong>Name:</strong> "
+                        + "<p><strong>Name:</strong> "
                         + adminName
                         + "</p>"
 
-                        + "<p style='margin: 0;'>"
-                        + "<strong>Email:</strong> "
+                        + "<p><strong>Email:</strong> "
                         + adminEmail
                         + "</p>"
 
                         + "</div>"
 
-                        + "<p style='color: #aaa;'>"
-                        + "Please login to the Admin Dashboard and visit the "
-                        + "<strong style='color:#E5B769;'>Approve Admins</strong> "
-                        + "tab to accept or reject this request."
+                        + "<p style='color:#aaa;'>"
+                        + "Please login to the Admin Dashboard "
+                        + "and visit the "
+                        + "<strong style='color:#E5B769;'>"
+                        + "Approve Admins"
+                        + "</strong> tab."
                         + "</p>"
 
-                        + "<p style='font-size: 12px; color: #555; margin-top: 30px;'>"
+                        + "<p style='font-size:12px;"
+                        + "color:#555;"
+                        + "margin-top:30px;'>"
                         + "Aurora Cinema Management System"
                         + "</p>"
 
