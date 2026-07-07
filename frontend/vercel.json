@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://movie-ticket-booking-system-vv3s.onrender.com/api/:path*"
+      "destination": "https://movie-ticket-booking-system-production-0651.up.railway.app/api/:path*"
     }
   ]
 }
