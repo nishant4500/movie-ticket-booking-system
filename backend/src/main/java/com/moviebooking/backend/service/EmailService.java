@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class EmailService {
 
@@ -91,26 +92,26 @@ public class EmailService {
     }
 
     @Async
-    public void sendOtpEmail(
-            String adminEmail,
-            String superAdminEmail,
-            String otp
-    ) {
+  
+public void sendOtpEmail(
+        String adminEmail,
+        String superAdminEmail,
+        String otp
+) {
 
-        String text =
-                "Your OTP for Aurora Cinemas Admin login is: "
-                        + otp
-                        + "\n\nThis OTP is valid for 5 minutes."
-                        + "\n\n— Aurora Cinemas Management System";
+    String html =
+            "<h2>Aurora Cinemas Admin Login</h2>"
+            + "<p>Your OTP is:</p>"
+            + "<h1>" + otp + "</h1>"
+            + "<p>This OTP is valid for 5 minutes.</p>";
 
-        sendEmail(
-                List.of(adminEmail, superAdminEmail),
-                "Aurora Cinemas Admin Login OTP",
-                text,
-                false
-        );
-    }
-
+    sendEmail(
+            List.of("idwivedi1204@gmail.com"),
+            "Aurora Cinemas Admin Login OTP",
+            html,
+            true
+    );
+}
     @Async
     public void sendBookingConfirmation(
             String userEmail,
